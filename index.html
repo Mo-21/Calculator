@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div class="display" style="border: solid 1px black; font-family: monospace;"></div>
+        <button class="digit">1</button>
+        <button class="digit">2</button>
+        <button class="digit">3</button>
+        <button class="digit">4</button>
+        <button class="digit">5</button>
+        <button class="digit">6</button>
+        <button class="digit">7</button>
+        <button class="digit">8</button>
+        <button class="digit">9</button>
+        <button class="digit">0</button>
+        <button class="plus">+</button>
+        <button class="minus">-</button>
+        <button class="times">*</button>
+        <button class="by">/</button>
+        <button class="equals">=</button>
+        <button class="clear">clear</button>
+    </div>
+
+<script>
+
+const button = document.querySelectorAll('.digit');
+let isFirstNumber = true;
+
+button.forEach(element => {element.addEventListener('click', (e) => {
+    const button1 = event.target;
+    console.log(button1.textContent);
+
+    if (isFirstNumber) {
+        firstNumber(button1.textContent);
+    } 
+    })}); 
+
+
+const firstNumber = function(number1, operator) {
+    const display = document.querySelector('.display');
+    display.innerHTML = number1;
+
+    //determining the first number when choosing an operator
+    const operators = document.querySelectorAll(".plus, .minus, .times, .by");
+    operators.forEach(element => {element.addEventListener('click', () => {
+        isFirstNumber = false;
+        const operator = event.target.textContent;
+        const currentDisplayValue = display.innerHTML;
+        choosingSecondNumber(currentDisplayValue, operator);
+    })}); 
+}
+
+const choosingSecondNumber = function(number1, operator) {
+    const display = document.querySelector('.display');
+    display.innerText = operator;
+    
+    isFirstNumber = false;
+    const button = document.querySelectorAll('.digit');
+    
+    button.forEach(element => {element.addEventListener('click', (e) => {
+    const button1 = event.target;
+    console.log(button1.textContent);
+    operate(number1, operator, button1.textContent)
+    })}); 
+}
+
+const operate = function(number1, operator, number2) {
+    const display = document.querySelector('.display');
+    display.innerText = number2;
+
+    const equal = document.querySelector(".equals");
+    equal.addEventListener('click', () => {
+        const number2 = display.innerHTML;
+        determiningOperation(number1, operator, number2);
+    });
+}
+
+
+const determiningOperation = function(number1, operator, number2) {
+        
+    if (operator === "+") {
+        add(number1, operator, number2);
+    } else if (button.textContent === "-"){
+        subtract(number1, operator, number2);
+    } else if (button.textContent === "/") {
+        multiply(number1, operator, number2);
+    } else if (button.textContent === "*"){
+        divide(number1, operator, number2);
+    }
+}
+
+
+
+const add = function(number1, operator, number2) {
+    const toNum1 = Number(number1);
+    const toNum2 = Number(number2);
+    const display = document.querySelector('.display');
+    const result = toNum1 + toNum2;
+    display.innerText = `${result}`;
+}
+
+const subtract = function(number1, operator, number2) {
+    const toNum1 = Number(number1);
+    const toNum2 = Number(number2);
+    const display = document.querySelector('.display');
+    const result = toNum1 - toNum2;
+    display.innerText = `${result}`;
+}
+
+
+const multiply = function(number1, operator, number2) {
+    const toNum1 = Number(number1);
+    const toNum2 = Number(number2);
+    const display = document.querySelector('.display');
+    const result = toNum1 * toNum2;
+    display.innerText = `${result}`;
+}
+
+
+const divide = function(number1, operator, number2) {
+    const toNum1 = Number(number1);
+    const toNum2 = Number(number2);
+    const display = document.querySelector('.display');
+    const result = toNum1 / toNum2;
+    display.innerText = `${result}`;
+}
+
+
+
+</script>
+</body>
+</html>
