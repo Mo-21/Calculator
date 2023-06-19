@@ -31,9 +31,19 @@
 const button = document.querySelectorAll('.digit');
 let isFirstNumber = true;
 
+const operators = document.querySelectorAll(".plus, .minus, .times, .by");
+let isTheFirstOperation = false;
+
+operators.forEach(element => {element.addEventListener('click', () => {
+    if (isTheFirstOperation == true) {
+        const display = document.querySelector('.display');
+        const result = display.innerText;
+        choosingSecondNumber(result, event.target.textContent)
+    } 
+})}); 
+
 button.forEach(element => {element.addEventListener('click', (e) => {
     const button1 = event.target;
-    console.log(button1.textContent);
 
     if (isFirstNumber) {
         firstNumber(button1.textContent);
@@ -56,15 +66,18 @@ const firstNumber = function(number1, operator) {
 }
 
 const choosingSecondNumber = function(number1, operator) {
+    if (isTheFirstOperation == true) {
+        console.log(number1);
+    } else {
     const display = document.querySelector('.display');
     display.innerText = operator;
-    
     isFirstNumber = false;
+    }
+
     const button = document.querySelectorAll('.digit');
-    
     button.forEach(element => {element.addEventListener('click', (e) => {
     const button1 = event.target;
-    console.log(button1.textContent);
+    
     operate(number1, operator, button1.textContent)
     })}); 
 }
@@ -75,7 +88,6 @@ const operate = function(number1, operator, number2) {
 
     const equal = document.querySelector(".equals");
     equal.addEventListener('click', () => {
-        const number2 = display.innerHTML;
         determiningOperation(number1, operator, number2);
     });
 }
@@ -85,12 +97,12 @@ const determiningOperation = function(number1, operator, number2) {
         
     if (operator === "+") {
         add(number1, operator, number2);
-    } else if (button.textContent === "-"){
+    } else if (operator === "-"){
         subtract(number1, operator, number2);
-    } else if (button.textContent === "/") {
-        multiply(number1, operator, number2);
-    } else if (button.textContent === "*"){
+    } else if (operator === "/") {
         divide(number1, operator, number2);
+    } else if (operator === "*"){
+        multiply(number1, operator, number2);
     }
 }
 
@@ -102,6 +114,8 @@ const add = function(number1, operator, number2) {
     const display = document.querySelector('.display');
     const result = toNum1 + toNum2;
     display.innerText = `${result}`;
+    isTheFirstOperation = true;
+
 }
 
 const subtract = function(number1, operator, number2) {
@@ -110,6 +124,7 @@ const subtract = function(number1, operator, number2) {
     const display = document.querySelector('.display');
     const result = toNum1 - toNum2;
     display.innerText = `${result}`;
+    isTheFirstOperation = true;
 }
 
 
@@ -119,6 +134,7 @@ const multiply = function(number1, operator, number2) {
     const display = document.querySelector('.display');
     const result = toNum1 * toNum2;
     display.innerText = `${result}`;
+    isTheFirstOperation = true;
 }
 
 
@@ -126,8 +142,14 @@ const divide = function(number1, operator, number2) {
     const toNum1 = Number(number1);
     const toNum2 = Number(number2);
     const display = document.querySelector('.display');
-    const result = toNum1 / toNum2;
-    display.innerText = `${result}`;
+    if (toNum2 === 0) {
+        const result = "cannot divide by zero";
+        display.innerText = `${result}`;} 
+    else {
+        const result = toNum1 / toNum2;
+        display.innerText = `${result}`;
+        isTheFirstOperation = true;
+    }
 }
 
 
