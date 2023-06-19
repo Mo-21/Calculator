@@ -28,6 +28,14 @@
 
 <script>
 
+const clearButton = document.querySelector('.clear');
+
+clearButton.addEventListener('click', () => {
+  const display = document.querySelector('.display');
+  display.innerHTML = '';
+});
+
+
 const button = document.querySelectorAll('.digit');
 let isFirstNumber = true;
 
@@ -38,7 +46,7 @@ operators.forEach(element => {element.addEventListener('click', () => {
     if (isTheFirstOperation == true) {
         const display = document.querySelector('.display');
         const result = display.innerText;
-        choosingSecondNumber(result, event.target.textContent)
+        choosingSecondNumber(result, event.target.textContent);    
     } 
 })}); 
 
@@ -85,7 +93,6 @@ const choosingSecondNumber = function(number1, operator) {
 const operate = function(number1, operator, number2) {
     const display = document.querySelector('.display');
     display.innerText = number2;
-
     const equal = document.querySelector(".equals");
     equal.addEventListener('click', () => {
         determiningOperation(number1, operator, number2);
