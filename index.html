@@ -23,6 +23,7 @@
             <button onclick="operatorValue('*')">*</button>
             <button onclick="operatorValue('/')">/</button>
             <button class="equalsButton">=</button>
+            <button onclick="deleteNumber()">X</button>
             <button class="clear">clear</button>
     </div>
 
@@ -63,7 +64,6 @@
         screenValue = "";
         determiningOperation();
     }
-
 
     function determiningOperation() {
         if (operator === "+") {
@@ -117,6 +117,15 @@
         }
     }
 
+    function deleteNumber() {
+       const newScreenValue = screenValue.slice(0,(screenValue.length)-1);
+       screenValue = newScreenValue;
+       console.log(screenValue);
+       display.innerText = screenValue;
+       return screenValue;
+    }
+
+    
 </script>
 </body>
 </html>
