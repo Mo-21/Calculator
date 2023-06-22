@@ -18,6 +18,7 @@
             <button onclick="appendToScreen(8)">8</button>
             <button onclick="appendToScreen(9)">9</button>
             <button onclick="appendToScreen(0)">0</button>
+            <button onclick="checkScreenValue('.')">.</button>
             <button onclick="operatorValue('+')">+</button>
             <button onclick="operatorValue('-')">-</button>
             <button onclick="operatorValue('*')">*</button>
@@ -28,12 +29,20 @@
     </div>
 
 <script>
+
     const display = document.querySelector('.display');
     let screenValue = "";
     let operator = "";
     let firstNumber = "";
     let secondNumber = "";
-    
+
+    function checkScreenValue(floatKey) {
+        if (screenValue.includes('.')) {
+            return;
+        } else {
+            appendToScreen(floatKey);
+        }
+    }
 
     function appendToScreen(number) {
         screenValue += number;
@@ -43,7 +52,6 @@
 
     const clearButton = document.querySelector('.clear');
     clearButton.addEventListener('click', () => {
-      const display = document.querySelector('.display');
       screenValue = '';
       display.innerText = '';
     });
@@ -81,16 +89,32 @@
         const toNum1 = Number(firstNumber);
         const toNum2 = Number(secondNumber);
         const result = toNum1 + toNum2;
-        screenValue = `${result}`;
-        display.innerText = screenValue;
+
+        const decimalPlaces = result.toString().split(".")[1].length;
+        if (decimalPlaces <= 5) {
+            screenValue = `${result}`;
+            display.innerText = screenValue;
+        } else {
+            const roundedResult = result.toFixed(5);
+            screenValue = `${roundedResult}`;
+            display.innerText = roundedResult;
+        }
     }
 
     function subtract() {
         const toNum1 = Number(firstNumber);
         const toNum2 = Number(secondNumber);
         const result = toNum1 - toNum2;
-        screenValue = `${result}`;
-        display.innerText = screenValue;
+
+        const decimalPlaces = result.toString().split(".")[1].length;
+        if (decimalPlaces <= 5) {
+            screenValue = `${result}`;
+            display.innerText = screenValue;
+        } else {
+            const roundedResult = result.toFixed(5);
+            screenValue = `${roundedResult}`;
+            display.innerText = roundedResult;
+        }
     }
 
 
@@ -98,8 +122,16 @@
         const toNum1 = Number(firstNumber);
         const toNum2 = Number(secondNumber);
         const result = toNum1 * toNum2;
-        screenValue = `${result}`;
-        display.innerText = screenValue;
+
+        const decimalPlaces = result.toString().split(".")[1].length;
+        if (decimalPlaces <= 5) {
+            screenValue = `${result}`;
+            display.innerText = screenValue;
+        } else {
+            const roundedResult = result.toFixed(5);
+            screenValue = `${roundedResult}`;
+            display.innerText = roundedResult;
+        }
     }
 
 
@@ -112,20 +144,27 @@
             display.innerText = `${result}`;} 
         else {
             const result = toNum1 / toNum2;
-            screenValue = `${result}`;
-            display.innerText = screenValue;;
+            
+            const decimalPlaces = result.toString().split(".")[1].length;
+            if (decimalPlaces <= 5) {
+                screenValue = `${result}`;
+                display.innerText = screenValue;
+            } else {
+                const roundedResult = result.toFixed(5);
+                screenValue = `${roundedResult}`;
+                display.innerText = roundedResult;
+            }
         }
     }
 
     function deleteNumber() {
        const newScreenValue = screenValue.slice(0,(screenValue.length)-1);
        screenValue = newScreenValue;
-       console.log(screenValue);
        display.innerText = screenValue;
        return screenValue;
     }
 
-    
+
 </script>
 </body>
 </html>
