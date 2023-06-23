@@ -30,6 +30,39 @@
 
 <script>
 
+    //keyboard support
+    window.addEventListener('keydown', function(e) {
+        if (e.key === '1') appendToScreen(1);
+        if (e.key === '2') appendToScreen(2);
+        if (e.key === '3') appendToScreen(3);
+        if (e.key === '4') appendToScreen(4);
+        if (e.key === '5') appendToScreen(5);
+        if (e.key === '6') appendToScreen(6);
+        if (e.key === '7') appendToScreen(7);
+        if (e.key === '8') appendToScreen(8);
+        if (e.key === '9') appendToScreen(9);
+        if (e.key === '0') appendToScreen(0);
+
+        if (e.key === '-') operatorValue('-');
+        if (e.key === '+') operatorValue('+');
+        if (e.key === '*') operatorValue('*');
+        if (e.key === '/') operatorValue('/');
+
+        if (e.key === '.') checkScreenValue('.');
+
+        if (e.key === 'Backspace') deleteNumber();
+
+        if (e.key === 'Enter') operate();
+
+        if (e.key === ' ') {
+            screenValue = "";
+            firstNumber = "";
+            secondNumber = "";
+            operator = "";
+            display.innerText = "";
+        };
+    });
+
     const display = document.querySelector('.display');
     let screenValue = "";
     let operator = "";
@@ -52,8 +85,11 @@
 
     const clearButton = document.querySelector('.clear');
     clearButton.addEventListener('click', () => {
-      screenValue = '';
-      display.innerText = '';
+      screenValue = "";
+      firstNumber = "";
+      secondNumber = "";
+      operator = "";
+      display.innerText = "";
     });
 
     function operatorValue(operatorSign) {
@@ -90,14 +126,24 @@
         const toNum2 = Number(secondNumber);
         const result = toNum1 + toNum2;
 
-        const decimalPlaces = result.toString().split(".")[1].length;
-        if (decimalPlaces <= 5) {
+        //converting the result to string to check if it has decimal places
+        const toString = result.toString();
+        if (toString.includes('.')) {
+
+            //rounding up decimal places if more than 5 places
+            const decimalPlaces = result.toString().split(".")[1].length;
+            if (decimalPlaces <= 5) {
+                screenValue = `${result}`;
+                display.innerText = screenValue;
+            } else {
+                const roundedResult = result.toFixed(5);
+                screenValue = `${roundedResult}`;
+                display.innerText = roundedResult;
+            }
+
+        } else {
             screenValue = `${result}`;
             display.innerText = screenValue;
-        } else {
-            const roundedResult = result.toFixed(5);
-            screenValue = `${roundedResult}`;
-            display.innerText = roundedResult;
         }
     }
 
@@ -106,14 +152,22 @@
         const toNum2 = Number(secondNumber);
         const result = toNum1 - toNum2;
 
-        const decimalPlaces = result.toString().split(".")[1].length;
-        if (decimalPlaces <= 5) {
+        const toString = result.toString();
+        if (toString.includes('.')) {
+
+            const decimalPlaces = result.toString().split(".")[1].length;
+            if (decimalPlaces <= 5) {
+                screenValue = `${result}`;
+                display.innerText = screenValue;
+            } else {
+                const roundedResult = result.toFixed(5);
+                screenValue = `${roundedResult}`;
+                display.innerText = roundedResult;
+            }
+
+        } else {
             screenValue = `${result}`;
             display.innerText = screenValue;
-        } else {
-            const roundedResult = result.toFixed(5);
-            screenValue = `${roundedResult}`;
-            display.innerText = roundedResult;
         }
     }
 
@@ -123,14 +177,22 @@
         const toNum2 = Number(secondNumber);
         const result = toNum1 * toNum2;
 
-        const decimalPlaces = result.toString().split(".")[1].length;
-        if (decimalPlaces <= 5) {
+        const toString = result.toString();
+        if (toString.includes('.')) {
+
+            const decimalPlaces = result.toString().split(".")[1].length;
+            if (decimalPlaces <= 5) {
+                screenValue = `${result}`;
+                display.innerText = screenValue;
+            } else {
+                const roundedResult = result.toFixed(5);
+                screenValue = `${roundedResult}`;
+                display.innerText = roundedResult;
+            }
+
+        } else {
             screenValue = `${result}`;
             display.innerText = screenValue;
-        } else {
-            const roundedResult = result.toFixed(5);
-            screenValue = `${roundedResult}`;
-            display.innerText = roundedResult;
         }
     }
 
@@ -145,17 +207,25 @@
         else {
             const result = toNum1 / toNum2;
             
-            const decimalPlaces = result.toString().split(".")[1].length;
-            if (decimalPlaces <= 5) {
+            const toString = result.toString();
+            if (toString.includes('.')) {
+
+                const decimalPlaces = result.toString().split(".")[1].length;
+                if (decimalPlaces <= 5) {
+                    screenValue = `${result}`;
+                    display.innerText = screenValue;
+                } else {
+                    const roundedResult = result.toFixed(5);
+                    screenValue = `${roundedResult}`;
+                    display.innerText = roundedResult;
+                }
+
+            } else {
                 screenValue = `${result}`;
                 display.innerText = screenValue;
-            } else {
-                const roundedResult = result.toFixed(5);
-                screenValue = `${roundedResult}`;
-                display.innerText = roundedResult;
             }
-        }
     }
+}
 
     function deleteNumber() {
        const newScreenValue = screenValue.slice(0,(screenValue.length)-1);
@@ -163,7 +233,6 @@
        display.innerText = screenValue;
        return screenValue;
     }
-
 
 </script>
 </body>
